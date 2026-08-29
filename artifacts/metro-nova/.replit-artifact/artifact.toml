@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Metro Nova"
+description = "A government-oriented Legal Metrology compliance checker with role-based mock login, protected role dashboards, and responsive access flows for inspectors, state administrators, consumers, and manufacturers."
+version = "1.0.0"
+id = "artifacts/metro-nova"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25189
+
+[services.development]
+run = "pnpm --filter @workspace/metro-nova run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/metro-nova", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/metro-nova/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25189"
+BASE_PATH = "/"
